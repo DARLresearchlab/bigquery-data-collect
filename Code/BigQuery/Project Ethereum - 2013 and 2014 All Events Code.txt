@@ -1,4 +1,4 @@
-SELECT CONCAT('hyperledger/', repo_name) AS GhRepo,
+SELECT repo_name_full AS GhRepo,
 CAST(date1 AS DATE) AS date1,
 actor_login AS actor_login,
 COUNT(actor_login) AS num_activities,
@@ -37,7 +37,8 @@ created_at AS date1,
 actor.login AS actor_login,
 type,
 payload,
+SUBSTR(repo.url,20) as repo_name_full
 FROM `githubarchive.month.*` WHERE _TABLE_SUFFIX BETWEEN '201312' AND '201412'
-and repo.url like 'https://github.com/ethereum/%')
+and repo.url LIKE ANY ('https://github.com/ethereum/%', 'https://github.com/hyperledger/%', 'https://github.com/vuejs/%'))
 GROUP BY GhRepo, date1, actor_login, release_payload
 ORDER BY GhRepo, date1, actor_login, release_payload;
