@@ -26,6 +26,6 @@ COUNT(DISTINCT CASE WHEN type = 'WatchEvent' THEN id ELSE NULL END) AS num_watch
 COUNT(DISTINCT CASE WHEN type = 'WatchEvent' THEN actor.id ELSE NULL END) AS num_actors_watch,
 COUNT(DISTINCT CASE WHEN type = 'ReleaseEvent' THEN id ELSE NULL END) AS num_releases,
 (CASE WHEN type = 'ReleaseEvent' THEN payload ELSE NULL END) AS release_payload
-FROM (SELECT * FROM `githubarchive.month.*` WHERE _TABLE_SUFFIX BETWEEN '201501' AND '201512') t1 WHERE t1.repo.name LIKE 'ethereum/%'
+FROM (SELECT * FROM `githubarchive.month.*` WHERE _TABLE_SUFFIX BETWEEN '201501' AND '201512') t1 WHERE t1.repo.name LIKE ANY ('ethereum/%', 'hyperledger/%', 'vuejs/%')
 GROUP BY GhRepo, date1, actor.id, actor.login, release_payload
 ORDER BY GhRepo, date1, actor.id, actor.login, release_payload
