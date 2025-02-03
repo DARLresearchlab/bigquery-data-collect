@@ -1,0 +1,13 @@
+## Script to break the bulk data into downloadable chunks
+
+CREATE TABLE `NewTable_Ranked` AS  ### New table with numbered rows
+SELECT 
+    ROW_NUMBER() OVER (ORDER BY date1, GhRepo, actor_id) AS RowNum,
+    *
+FROM `NewTable`;  ### Temp table  where all data resides
+
+## comment previous script before running the next one
+
+SELECT *
+FROM NewTable_Ranked
+WHERE RowNum between 1 and 40000 #### Change numbers to make a file around 30-40K observations
